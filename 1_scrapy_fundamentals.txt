@@ -1,0 +1,113 @@
+To make a new project:
+$ scrapy startproject <project_name>
+
+--------------
+
+To generate a spider using template 'basic':
+
+first go inside the root directory of your project
+
+$ scrapy genspider <unique_spider_name> <url>
+
+Note: 
+each spider will be of unique name in your project
+url should be without 'http' protocol and last trailing '/' forward slash as scrapy takes cares of this all.
+e.g.:
+scrapy genspider countries www.worldometers.info/world-population/population-by-country
+
+---------------
+
+
+To enter scrapy shell:
+
+first install ipython in your virtual environment
+
+$ scrapy shell
+
+---------------
+
+To fetch an url:
+
+$ scrapy shell
+
+fetch('<url>')
+
+to see the response body
+
+response.body
+
+note: fetch is not very reliable method, use it sparingly
+-------------
+
+To view how spider sees the page:
+
+$ scrapy shell
+
+make sure you've fetched
+
+view(response)
+
+Note: this very response variable is passed in to the parse() method of the spider you created, so what you can do 
+here with it in scrapy shell is also reproducable in spider code.
+
+---------------
+
+To work with xpath in scrapy shell (also works the same way in parse() method of your spider):
+
+first make sure you've hit the request with fetch()
+
+e.g.:
+
+title = response.xpath('//h1/text()')
+
+To get the actual data of selector you have written:
+
+title.get()
+
+if your selector returns a list, then use .getall()
+
+----------------
+
+To crawl using your spider:
+
+first make sure you're at the same level of 'scrapy.cfg' in the shell while executing the following cmd:
+
+$ scrapy crawl <spider_name>
+
+e.g.:
+
+$ scrapy crawl countries
+
+---------------
+
+To send (spoofing) different request headers there two ways:
+
+1: change DEFAULT_REQUEST_HEADERS in settings.py of the project
+
+or 
+
+2: do it with the intial and/or subsequent request within the spider
+   watch video (5.spoofing request headers) inside 6th section
+
+--------------
+
+To list all available templates:
+
+$scrapy genspider -l
+
+Templates you'll deal with most of time are:
+basic
+crawl
+
+--------------
+
+To make the spider with 'crawl' template:
+
+$ scrapy genspider -t crawl <spider_name> <url>
+
+-------------
+
+
+
+
+

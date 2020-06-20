@@ -1,0 +1,65 @@
+When working with spiders to scrap and crawl the content
+
+--------------
+Use '//' when executing xpath expression(s) against response object
+Use './/' when executing xpath expression(s) against selector object(possibly inside a loop)
+--------------
+
+To follow urls found on page:
+
+// if converting links to absolute urls manually, use urljoin() method
+
+    absolute_url = response.urljoin('source_link')
+    yield scrapy.Request(url=absolute_url)
+
+// you want scrapy to do all the stuff, use follow() method
+    yield response.follow(url='source_link')
+
+-------------
+
+To send the response of follow up links to a function, use 'callback' arguement of follow() method
+
+E.g.:
+yield response.follow(url=country_link, callback=self.parse_country)
+
+def parse_country(self, response):
+    ## do whatever you want with response
+
+------------
+
+To supply additional data within parse() method into callback method(s), use 'meta' arguement of follow() method
+
+E.g:
+yield response.follow(url=country_link, callback=self.parse_country, meta={'abc':xyz})
+
+To retrieve it inside a callback function, let's say parse_country in this case
+
+def parse_country(self, response):
+    name = response.request.meta['abc']
+    
+------------
+
+To save the scraped data to an external file or simply to build a dataset:
+Note: you just have to mention the extension, scrapy does all the heavy lifting.
+
+$ scrapy crawl <spider_name> -o <file_name>.<extension>
+
+For e.g:
+
+$ scrapy crawl countries -o population_dataset.json
+$ scrapy crawl countries -o population_dataset.csv
+$ scrapy crawl countries -o population_dataset.xml
+
+-------------
+
+By default, scrapy doesn't use utf-9 encoding while exporting data, if you need it
+
+go to -> settings.py file of the project
+
+append at the end this parameter
+
+FEED_EXPORT_ENCODING = 'utf-8'
+
+------------
+
+    

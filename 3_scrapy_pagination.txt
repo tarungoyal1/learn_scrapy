@@ -1,0 +1,12 @@
+There can be n number of logical solutions to handle the pagination and it's always unique one each time.
+So, it depends what your use case is and how you want to handle it.
+
+1: One way is to check if the 'link' to the next page is available, if yes follow it and make callback to same function
+    For e.g:
+        next_page = response.xpath("//a[@class='nextPage']/@href").get()
+        if next_page:
+            yield response.follow(url=next_page, callback=self.parse)
+
+            or 
+
+            #yield scrapy.Request(url=next_page, callback=self.parse)
