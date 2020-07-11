@@ -1,3 +1,5 @@
+import requests
+
 html_doc = """
 <html><head><title>The Dormouse's story</title></head>
 <body>
@@ -12,7 +14,9 @@ and they lived at the bottom of a well.</p>
 <span itemprop="ratingValue ratingStar">Rating</span>
 """
 from bs4 import BeautifulSoup
-soup = BeautifulSoup(html_doc, 'lxml')
+
+page = requests.get("https://www.amazon.com/Modern-Robotics-Mechanics-Planning-Control/dp/1107156300")
+soup = BeautifulSoup(page.text, 'lxml')
 
 # print(soup.prettify())
 
